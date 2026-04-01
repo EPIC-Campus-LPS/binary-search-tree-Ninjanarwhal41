@@ -1,39 +1,32 @@
 public class BST<E extends Comparable<E>> {
     private TreeNode<E> root;
-    private TreeNode<E>[] data;
     private int size;
 
-    public BST(TreeNode<E>[] data) {
-        this.data = data;
-        size = data.length;
-        root = data[0];
+    public BST() {
+        size = 0;
     }
 
     public void add(E value){
-        TreeNode<E> temp = root;
         TreeNode<E> newNode = new TreeNode<E>(value, null, null);
+        TreeNode<E> curr = root;
         if(root == null){
             root = newNode;
-            root.setLeftChild(null);
-            root.setRightChild(null);
         }
-
-        if(value.compareTo(root.getValue()) > 0){
-            if (temp != null && temp.getLeftChild() == null){
-                temp.setLeftChild(newNode);
-            }
-            while(value.compareTo(temp.getValue()) > 0){
-
-            }
+        while(curr != null){
+          if(curr.getValue().compareTo(value) > 0 && curr.getLeftChild() != null){
+              curr = curr.getLeftChild();
+          }
+          else if(curr.getValue().compareTo(value) <= 0 && curr.getRightChild() != null){
+              curr = curr.getRightChild();
+          }
+        }
+        if (curr.getValue().compareTo(value) > 0){
+            curr.setRightChild(newNode);
         }
         else{
-            if (temp != null && temp.getLeftChild() == null){
-                temp = temp.getLeftChild();
-            }
-
+            curr.setLeftChild(newNode);
         }
-
-
+        size++;
     }
     public boolean contains(E value){
         return false;
@@ -47,8 +40,9 @@ public class BST<E extends Comparable<E>> {
         if(root.getLeftChild() == null && root.getRightChild() == null){
             return count;
         }
-        while(temp != null && temp.getLeftChild() != null && temp.getRightChild() != null){
-            temp = temp.getLeftChild();
+        while(temp != null){
+
+
             count++;
         }
         return count;
