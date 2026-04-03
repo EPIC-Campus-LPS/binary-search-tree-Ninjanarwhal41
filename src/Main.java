@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 public class Main {
     public static void main(String[] args) {
          /*
@@ -12,10 +14,6 @@ public class Main {
         Clear the tree
         Exit Program
          */
-        TreeNode<Integer> a = new TreeNode<Integer>(3, null, null);
-        TreeNode<Integer> b = new TreeNode<Integer>(2, null, null);
-        TreeNode<Integer> c = new TreeNode<Integer>(1, null, null);
-
         BST<Integer> elm = new BST<>();
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
@@ -27,9 +25,9 @@ public class Main {
             System.out.println("1. Add a value to the tree");
             System.out.println("2. Delete a value from the tree");
             System.out.println("3. Check if the tree contains a value");
-            System.out.println("4. Test pre-order traversal");
-            System.out.println("5. Test in-order traversal");
-            System.out.println("6. Test post-order traversal");
+            System.out.println("4. Print pre-order traversal");
+            System.out.println("5. Print in-order traversal");
+            System.out.println("6. Print post-order traversal");
             System.out.println("7. Print stats.");
             System.out.println("8. Clear the tree");
             System.out.println("9. Exit");
@@ -40,6 +38,20 @@ public class Main {
                 choice = scanner.nextInt();
                 switch(choice){
                     case 0:
+                        File input = new File("/home/username/IdeaProjects/binary-search-tree-Ninjanarwhal41/src/test.txt");
+                        try(Scanner reader = new Scanner(input)){
+                            System.out.println("Adding the following values from your file:");
+                            while(reader.hasNextLine()){
+                                int value = reader.nextInt();
+                                System.out.println(value + " ");
+                                elm.add(value);
+                            }
+                        }
+                        catch(FileNotFoundException e){
+                            System.out.println("An error occurred.");
+                            e.printStackTrace();
+                        }
+
                     case 1:
                         System.out.print("Enter a value to add: ");
                         int value = scanner.nextInt();
@@ -48,8 +60,11 @@ public class Main {
                     case 2:
                     case 3:
                     case 4:
+                        elm.printPreorder(elm.getRoot());
                     case 5:
+                        elm.printInorder(elm.getRoot());
                     case 6:
+                        elm.printPostorder(elm.getRoot());
                     case 7:
                     case 8:
                     case 9:

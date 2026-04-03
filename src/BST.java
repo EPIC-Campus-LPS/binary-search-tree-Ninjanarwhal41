@@ -6,13 +6,19 @@ public class BST<E extends Comparable<E>> {
         size = 0;
     }
 
+    public TreeNode<E> getRoot(){
+        return root;
+    }
     public void add(E value){
         TreeNode<E> newNode = new TreeNode<E>(value, null, null);
         TreeNode<E> curr = root;
+        TreeNode<E> parent = null;
         if(root == null){
             root = newNode;
+            return;
         }
         while(curr != null){
+            parent = curr;
           if(curr.getValue().compareTo(value) > 0 && curr.getLeftChild() != null){
               curr = curr.getLeftChild();
           }
@@ -20,11 +26,11 @@ public class BST<E extends Comparable<E>> {
               curr = curr.getRightChild();
           }
         }
-        if (curr.getValue().compareTo(value) > 0){
-            curr.setRightChild(newNode);
+        if (parent.getValue().compareTo(value) > 0){
+            parent.setRightChild(newNode);
         }
         else{
-            curr.setLeftChild(newNode);
+            parent.setLeftChild(newNode);
         }
         size++;
     }
@@ -41,8 +47,6 @@ public class BST<E extends Comparable<E>> {
             return count;
         }
         while(temp != null){
-
-
             count++;
         }
         return count;
@@ -58,16 +62,44 @@ public class BST<E extends Comparable<E>> {
 
         return 0;
     } //returns the longest path from the root to a leaf node
-    void printInorder(){
-        System.out.println();
+    public void printPreorder(TreeNode<E> node){
+        if(root == null){
+            System.out.println("Empty!");
+            return;
+        }
+        if(node != null){
+            System.out.print(node.getValue() + ", ");
+            printPreorder(node.getLeftChild());
+            printPreorder(node.getRightChild());
+        }
     }
-    void printPreorder(){
-        System.out.println();
+    public void printInorder(TreeNode<E> node){
+        if(root == null){
+            System.out.println("Empty!");
+            return;
+        }
+        if(node != null){
+            printInorder(node.getLeftChild());
+            System.out.print(node.getValue() + ", ");
+            printInorder(node.getRightChild());
+        }
     }
-    void printPostorder(){
-        System.out.println();
+
+    public void printPostorder(TreeNode<E> node){
+        if(root == null){
+            System.out.println("Empty!");
+            return;
+        }
+        if(node != null){
+            printPostorder(node.getLeftChild());
+            printPostorder(node.getRightChild());
+            System.out.print(node.getValue() + ", ");
+        }
     }
-    E delete(E value){
-        return null;
+    public E delete(E value){
+        if(root == null){
+            return null;
+        }
+        return value;
     }
 }
