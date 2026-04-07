@@ -17,10 +17,9 @@ public class Main {
         BST<Integer> elm = new BST<>();
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
-
+        System.out.println("Welcome! Choose an option:");
         do {
             // Display the menu
-            System.out.println("Welcome! Choose an option:");
             System.out.println("0. Fill the tree from a file.");
             System.out.println("1. Add a value to the tree");
             System.out.println("2. Delete a value from the tree");
@@ -51,22 +50,45 @@ public class Main {
                             System.out.println("An error occurred.");
                             e.printStackTrace();
                         }
-
+                        break;
                     case 1:
                         System.out.print("Enter a value to add: ");
                         int value = scanner.nextInt();
                         elm.add(value);
                         break;
                     case 2:
+                        System.out.print("Enter a value to delete: ");
+                        int val = scanner.nextInt();
+                        elm.delete(val);
+                        break;
                     case 3:
+                        System.out.print("Enter a value to check if it is in the tree: ");
+                        int valu = scanner.nextInt();
+                        if (elm.contains(valu)){
+                            System.out.println("Success! The tree contains the value " + valu + ".");
+                        }
+                        else{
+                            System.out.println("The tree does not contain the value " + valu + ".");
+                        }
+                        break;
                     case 4:
-                        elm.printPreorder(elm.getRoot());
+                        elm.printPreorder();
+                        break;
                     case 5:
-                        elm.printInorder(elm.getRoot());
+                        elm.printInorder();
+                        break;
                     case 6:
-                        elm.printPostorder(elm.getRoot());
+                        elm.printPostorder();
+                        break;
                     case 7:
+                        System.out.println("Stats:");
+                        System.out.println("Number of Nodes: " + elm.countNodes());
+                        System.out.println("Tree Height: " + elm.getHeight());
+                        System.out.println("Number of Leaf Nodes: " + elm.countLeafNodes());
+                        break;
                     case 8:
+
+                        System.out.println("The tree is now clear.");
                     case 9:
                         System.out.println("Exiting program...");
                         break;
