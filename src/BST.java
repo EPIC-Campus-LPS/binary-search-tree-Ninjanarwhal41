@@ -11,22 +11,26 @@ public class BST<E extends Comparable<E>> {
     }
     public void add(E value){
         TreeNode<E> newNode = new TreeNode<E>(value, null, null);
-        TreeNode<E> curr = root;
-        TreeNode<E> parent = null;
+        
         if(root == null){
             root = newNode;
+            size++
             return;
         }
+        
+        TreeNode<E> curr = root;
+        TreeNode<E> parent = null;
+        
         while(curr != null){
             parent = curr;
-          if(curr.getValue().compareTo(value) > 0 && curr.getLeftChild() != null){
-              curr = curr.getLeftChild();
-          }
-          else if(curr.getValue().compareTo(value) <= 0 && curr.getRightChild() != null){
+          if(value.compareTo(curr.getValue()) > 0){
               curr = curr.getRightChild();
           }
+          else if(value.compareTo(curr.getValue()) <= 0){
+              curr = curr.getLeftChild();
+          }
         }
-        if (parent.getValue().compareTo(value) > 0){
+        if (value.compareTo(parent.getValue()) > 0){
             parent.setRightChild(newNode);
         }
         else{
@@ -62,16 +66,28 @@ public class BST<E extends Comparable<E>> {
 
         return 0;
     } //returns the longest path from the root to a leaf node
-    public void printPreorder(TreeNode<E> node){
+    public void printPreorder() {
         if(root == null){
             System.out.println("Empty!");
+        }
+        else{
+            printPreorder(root);
+            System.out.println();
+        }
+    }
+    private void printPreorder(TreeNode<E> node){
+        //base case
+        if(node == null){
             return;
         }
-        if(node != null){
-            System.out.print(node.getValue() + ", ");
-            printPreorder(node.getLeftChild());
-            printPreorder(node.getRightChild());
-        }
+        //root first
+        System.out.print(node.getValue() + ", ");
+
+        //left
+        printPreorder(node.getLeftChild());
+
+        //right
+        printPreorder(node.getRightChild());
     }
     public void printInorder(TreeNode<E> node){
         if(root == null){
