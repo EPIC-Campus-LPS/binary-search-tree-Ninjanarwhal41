@@ -112,6 +112,7 @@ public class BST<E extends Comparable<E>> {
         //left
         printPreorder(node.getLeftChild());
 
+
         //right
         printPreorder(node.getRightChild());
     }
@@ -159,30 +160,58 @@ public class BST<E extends Comparable<E>> {
         //right
         printPostorder(node.getRightChild());
         //root
-        System.out.print(node.getValue() + ", ");
+        System.out.print(node.getValue() + " ");
     }
     public E delete(E value){
+        if(!contains(value)){
+            System.out.println("The value is not in the tree!");
+            return null;
+        }
         if(root == null){
             System.out.println("You can't remove values from an empty tree!");
             return null;
         }
         TreeNode<E> curr = root;
         TreeNode<E> parent = null;
-        while (curr != null) {
-            parent = curr;
+        int pos = 0;
+        while (true) {
+
             if (value.compareTo(curr.getValue()) > 0) {
+                parent = curr;
+                pos = 1;
                 curr = curr.getRightChild();
             }
-            else if (value.compareTo(curr.getValue()) <= 0) {
+            else if (value.compareTo(curr.getValue()) < 0) {
+                parent = curr;
+                pos = -1;
                 curr = curr.getLeftChild();
+            }else{
+                break;
             }
         }
-        if(parent.getLeftChild() == null && parent.getRightChild() == null){
-            parent.setValue(null);
-            return parent.getValue();
+        //find the node we're trying to remove.
+
+        //if the node is a leaf node, delete it.
+        if(curr.getLeftChild() == null && curr.getRightChild() == null){
+            if(pos == 1){
+                parent.setRightChild(null);
+            }
+            else if(pos == -1){
+                parent.setLeftChild(null);
+            }
+            else{
+                root = null;
+            }
         }
-        else if((parent.getRightChild() == null && parent.getLeftChild() != null) ||  (parent.getLeftChild() == null && parent.getRightChild() != null)){
-            parent.setValue(null);
+        //if the node has one child, replace it with the child.
+        else if((parent.getRightChild() == null && parent.getLeftChild() != null)){
+            parent = parent.getLeftChild();
+        }
+        else if((parent.getLeftChild() == null && parent.getRightChild() != null)){
+            parent = parent.getRightChild();
+        }
+        else{
+            parent.setValue(parent.getLeftChild().getValue());
         }
         size--;
         return value;

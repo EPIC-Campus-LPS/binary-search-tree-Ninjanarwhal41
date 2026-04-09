@@ -60,6 +60,7 @@ public class Main {
                         System.out.print("Enter a value to delete: ");
                         int val = scanner.nextInt();
                         elm.delete(val);
+                        System.out.println("Value deleted successfully.");
                         break;
                     case 3:
                         System.out.print("Enter a value to check if it is in the tree: ");
