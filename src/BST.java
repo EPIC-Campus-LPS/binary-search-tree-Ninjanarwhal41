@@ -6,6 +6,9 @@ public class BST<E extends Comparable<E>> {
         size = 0;
     }
 
+    /** places a value into a binary tree in its proper place to follow binary tree conventions
+     * @param value the value to be added to the binary tree
+     */
     public void add(E value) {
         TreeNode<E> newNode = new TreeNode<E>(value, null, null);
 
@@ -34,6 +37,10 @@ public class BST<E extends Comparable<E>> {
         size++;
     }
 
+    /**
+     * @param value the value to be checked
+     * @return a boolean that is true if the tree contains value and false otherwise.
+     */
     public boolean contains(E value) {
         if (root == null){
             return false;
@@ -54,11 +61,16 @@ public class BST<E extends Comparable<E>> {
         return false;
     }
 
+    /**
+     * counts the number of nodes in a tree
+     * @return a count of the number of nodes the binary tree contains
+     */
     public int countNodes() {
         return size;
     }
-    //returns the number of nodes in the tree, stored in the private instance variable size.
-
+    /**
+     * @return countLeafNodes called at the root node, 0 if the root is null and therefore the tree is empty.
+     */
     public int countLeafNodes() {
         if(root == null){
             return 0;
@@ -66,6 +78,11 @@ public class BST<E extends Comparable<E>> {
         return countLeafNodes(root);
     } //returns the number of leaf nodes in tree
 
+    /**
+     * recursive private helper method to count how many leaf nodes there are (nodes with no children).
+     * @param node a given TreeNode
+     * @return countLeafNodes of the left child plus the right child.
+     */
     private int countLeafNodes(TreeNode<E> node) {
         if (node == null){
             return 0;
@@ -77,6 +94,9 @@ public class BST<E extends Comparable<E>> {
     }
 
 
+    /**
+     * @return getHeight at the root node, 0 if the tree is empty.
+     */
     public int getHeight() {
         if (root == null) {
             return 0;
@@ -84,6 +104,10 @@ public class BST<E extends Comparable<E>> {
         return getHeight(root);
     } //returns the longest path from the root to a leaf node
 
+    /**
+     * @param node a given TreeNode
+     * @return 1 plus the highest height between the left and right branches.
+     */
     private int getHeight(TreeNode<E> node){
         //base case
         if (node == null){
@@ -107,7 +131,7 @@ public class BST<E extends Comparable<E>> {
             return;
         }
         //root first
-        System.out.print(node.getValue() + ", ");
+        System.out.print(node.getValue() + " ");
 
         //left
         printPreorder(node.getLeftChild());
@@ -128,7 +152,6 @@ public class BST<E extends Comparable<E>> {
 
     private void printInorder(TreeNode<E> node) {
         //base case
-        String result = "";
         if (node == null) {
             return;
         }
@@ -136,7 +159,7 @@ public class BST<E extends Comparable<E>> {
         //left
         printInorder(node.getLeftChild());
         //root
-        System.out.print(node.getValue() + ", ");
+        System.out.print(node.getValue() + " ");
         //right
         printInorder(node.getRightChild());
 
@@ -185,14 +208,15 @@ public class BST<E extends Comparable<E>> {
                 parent = curr;
                 pos = -1;
                 curr = curr.getLeftChild();
-            }else{
+            }
+            else{
                 break;
             }
         }
         //find the node we're trying to remove.
 
         //if the node is a leaf node, delete it.
-        if(curr.getLeftChild() == null && curr.getRightChild() == null){
+        if(curr.getRightChild() == null && curr.getLeftChild() == null){
             if(pos == 1){
                 parent.setRightChild(null);
             }
@@ -215,5 +239,13 @@ public class BST<E extends Comparable<E>> {
         }
         size--;
         return value;
+    }
+
+    /**
+     *
+     */
+    public void clearTree(){
+        root = null;
+        System.out.println("The tree is now clear.");
     }
 }

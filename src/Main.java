@@ -88,8 +88,8 @@ public class Main {
                         System.out.println("Number of Leaf Nodes: " + elm.countLeafNodes());
                         break;
                     case 8:
-
-                        System.out.println("The tree is now clear.");
+                        elm.clearTree();
+                        break;
                     case 9:
                         System.out.println("Exiting program...");
                         break;
