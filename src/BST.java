@@ -196,9 +196,8 @@ public class BST<E extends Comparable<E>> {
         }
         TreeNode<E> curr = root;
         TreeNode<E> parent = null;
-        int pos = 0;
+        int pos = 0; //-1 for left child and +1 for right child
         while (true) {
-
             if (value.compareTo(curr.getValue()) > 0) {
                 parent = curr;
                 pos = 1;
@@ -228,17 +227,70 @@ public class BST<E extends Comparable<E>> {
             }
         }
         //if the node has one child, replace it with the child.
-        else if((parent.getRightChild() == null && parent.getLeftChild() != null)){
-            parent = parent.getLeftChild();
+        //replace the node with the left child.
+        else if((current.getRightChild() == null)){
+            if (parent == null) {
+                root = curr.getLeftChild();
+            }
+            else if (pos == 1) {
+                parent.setRightChild(curr.getLeftChild());
+            }
+            else {
+                parent.setLeftChild(curr.getLeftChild());
+            }
         }
-        else if((parent.getLeftChild() == null && parent.getRightChild() != null)){
-            parent = parent.getRightChild();
+        //replace the node with the right child
+        else if((current.getLeftChild() == null)){
+            if (parent == null){
+                root = curr.getRightChild();
+            }
+            else if (pos == 1) {
+                parent.setRightChild(curr.getRightChild());
+            }
+            else {
+                parent.setLeftChild(curr.getRightChild());        
+            }
         }
-        else{
-            parent.setValue(parent.getLeftChild().getValue());
+        //if there are two children, replace with the left child and reinsert the right subtree back into the tree
+       else {
+        TreeNode<E> leftSub = curr.getLeftChild();
+        TreeNode<E> rightSub = curr.getRightChild();
+    
+        // Replace curr with its left child
+        if (parent == null) {
+            root = leftSub;
+        }
+        else if (pos == 1) {
+            parent.setRightChild(leftSub);
+        }
+        else {
+            parent.setLeftChild(leftSub);
+        }
+        // Reinsert the right subtree into the tree
+        reinsert(leftSub, rightSub);
         }
         size--;
         return value;
+    }
+
+    //helper method to reinsert subtree back into the tree
+    private void reinsertSubtree(TreeNode<E> node, TreeNode<E> toInsert) {
+        if (toInsert.getValue().compareTo(node.getValue()) < 0) {
+            if (node.getLeftChild() == null) {
+                node.setLeftChild(toInsert);
+            }
+            else {
+                reinsertSubtree(node.getLeftChild(), toInsert);
+            }
+        } 
+        else {
+            if (node.getRightChild() == null) {
+                node.setRightChild(toInsert);
+            }
+            else {
+                reinsertSubtree(node.getRightChild(), toInsert);
+            }
+        }
     }
 
     /**
